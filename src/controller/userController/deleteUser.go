@@ -1,4 +1,4 @@
-package UserController
+package userController
 
 import "github.com/gofiber/fiber/v2"
 
