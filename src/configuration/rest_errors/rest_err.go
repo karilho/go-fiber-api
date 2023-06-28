@@ -2,6 +2,7 @@ package rest_errors
 
 import "net/http"
 
+// Struct para retornar o "padrão" de erro
 type RestErr struct {
 	Message string   `json:"message"`
 	Err     string   `json:"error"`
@@ -9,6 +10,7 @@ type RestErr struct {
 	Causes  []Causes `json:"causes"`
 }
 
+// Struct para retornar as CAUSAS do erro gerado
 type Causes struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`
@@ -20,7 +22,7 @@ func (e *RestErr) Error() string {
 	return e.Message
 }
 
-// Work like a constructor
+// Work like a constructors
 func NewRestErr(neessage, err string, code int, causes []Causes) *RestErr {
 	return &RestErr{
 		Message: neessage,
@@ -29,7 +31,6 @@ func NewRestErr(neessage, err string, code int, causes []Causes) *RestErr {
 		Causes:  causes,
 	}
 }
-
 func NewBadRequestError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
@@ -37,7 +38,6 @@ func NewBadRequestError(message string) *RestErr {
 		Code:    http.StatusBadRequest,
 	}
 }
-
 func NewBadRequestValidationError(message string, causes []Causes) *RestErr {
 	return &RestErr{
 		Message: message,
@@ -46,7 +46,6 @@ func NewBadRequestValidationError(message string, causes []Causes) *RestErr {
 		Causes:  causes,
 	}
 }
-
 func NewInternalServerError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
@@ -54,7 +53,6 @@ func NewInternalServerError(message string) *RestErr {
 		Code:    http.StatusInternalServerError,
 	}
 }
-
 func NewNotFoundError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
@@ -62,7 +60,6 @@ func NewNotFoundError(message string) *RestErr {
 		Code:    http.StatusNotFound,
 	}
 }
-
 func NewForbiddenError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
