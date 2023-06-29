@@ -2,38 +2,30 @@ package validation
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
+	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
 )
 
-// FiberValidator is a struct that holds the validator and translator
-type ValidateUser struct {
-	validator *validator.Validate
-}
+// Usar o translate para mudar a forma de exibição do erro para o usuário
+// Quando vocÊ chama no var no começo, é como se fosse injetar (java) o que você irá utilizar.
+var (
+	validate = validator.New()
+)
 
-func NewValidateUser() *ValidateUser {
-	return &ValidateUser{
-		validator: validator.New(),
-	}
-}
-
-func (vu *ValidateUser) Middleware(ctx *fiber.Ctx) error {
-	user := new(dtos.UserRequest)
-	if err := ctx.BodyParser(user); err != nil {
-		return err
-	}
-
-	err := vu.validator.Struct(user)
+func ValidateStruct(user dtos.UserRequest) *rest_errors.RestErr {
+	err := validate.Struct(user)
 	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error":   true,
-			"message": err.Error(),
-		})
+		var causes []rest_errors.Causes
+		for _, err := range err.(validator.ValidationErrors) {
+			cause := rest_errors.Causes{
+				Message: err.Error(),
+				Field:   err.Field(),
+			}
+			causes = append(causes, cause)
+
+		}
+		restErr := rest_errors.NewBadRequestValidationError("Invalid request body", causes)
+		return restErr
 	}
-
-	// Adicione o objeto User ao contexto para que o controlador possa acessá-lo
-	ctx.Locals("user", user)
-
-	// Chame o próximo manipulador na cadeia
-	return ctx.Next()
+	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
+	"github.com/karilho/go-fiber-api/src/configuration/validation"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
 	"log"
 )
@@ -21,7 +22,12 @@ func CreateUser(ctx *fiber.Ctx) error {
 		//Este retorno serve para que ele NÃO CONTINUE E CÓDIGO CASO ERRO
 		return ctx.Status(fiber.StatusBadRequest).JSON(errRest)
 	}
-	fmt.Println(userRequest)
+
+	//Aqui eu vou validar o usuário
+	err := validation.ValidateStruct(userRequest)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(err)
+	}
 
 	//Se tudo correr bem, retorne o response, mas ai tenho q ver kkk
 	userResponse := dtos.UserResponse{
