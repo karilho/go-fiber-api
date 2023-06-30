@@ -7,7 +7,6 @@ import (
 	"github.com/karilho/go-fiber-api/src/configuration/validation"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
 	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
 
 func CreateUser(ctx *fiber.Ctx) error {
@@ -40,10 +39,9 @@ func CreateUser(ctx *fiber.Ctx) error {
 		Name:  userRequest.Name,
 		Age:   userRequest.Age,
 	}
-	logger.Info("Creater user sucessfully",
-		zapcore.Field{
-			Key:    "journey",
-			String: "createUser",
-		})
+	logger.Info("Created user sucessfully",
+		zap.String("userName", userRequest.Name),
+		zap.String("journey", "createUser"),
+	)
 	return ctx.JSON(userResponse)
 }
