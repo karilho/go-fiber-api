@@ -2,7 +2,7 @@
 
 
 
--> Explicqar o que é o CONTEXTO
+-> Explicar o que é o CONTEXTO
  Você utiliza ele quando quer utilizar algo de fora, por exemplo ->
 * Limitar o tempo de chamada, aahhh quero que o httpget feito demore no máximo 1s, se não cancele.
 * Ahh valide o campo xyz de outra api quando eu chamar a principal

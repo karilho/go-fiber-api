@@ -3,14 +3,20 @@ package userController
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/logger"
+	"github.com/karilho/go-fiber-api/src/configuration/model"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
 	"github.com/karilho/go-fiber-api/src/configuration/validation"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
 	"go.uber.org/zap"
 )
 
+// Aqui cria variavel global para usar outros pontos
+var (
+	userDomain model.UserDomainInterface
+)
+
 func CreateUser(ctx *fiber.Ctx) error {
-	logger.Info("Starting creation of user",
+	logger.Info("Starting creation of user VIA CONTROLLER",
 		zap.String("journey", "createUser"),
 	)
 	var userRequest dtos.UserRequest
@@ -33,15 +39,16 @@ func CreateUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(err)
 	}
 
-	//Se tudo correr bem, retorne o response, mas ai tenho q ver kkk
-	userResponse := dtos.UserResponse{
-		Email: userRequest.Email,
-		Name:  userRequest.Name,
-		Age:   userRequest.Age,
+	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
+	if err := domain.CreateUser(); err != nil {
+		return ctx.Status(err.Code).JSON(err)
 	}
-	logger.Info("Created user sucessfully",
+
+	logger.Info("Created user sucessfully via CONTROLLER",
 		zap.String("userName", userRequest.Name),
+		//zap.String("userName", userRequest.Password),
 		zap.String("journey", "createUser"),
 	)
-	return ctx.JSON(userResponse)
+
+	return nil
 }
