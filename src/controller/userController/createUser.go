@@ -4,15 +4,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/logger"
 	"github.com/karilho/go-fiber-api/src/configuration/model"
+	service "github.com/karilho/go-fiber-api/src/configuration/model/service"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
 	"github.com/karilho/go-fiber-api/src/configuration/validation"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
 	"go.uber.org/zap"
-)
-
-// Aqui cria variavel global para usar outros pontos
-var (
-	userDomain model.UserDomainInterface
 )
 
 func CreateUser(ctx *fiber.Ctx) error {
@@ -34,19 +30,25 @@ func CreateUser(ctx *fiber.Ctx) error {
 	}
 
 	//Aqui eu vou validar o usuário
+	//Todo VALIDAR DENTRO DO BODYPARSER.
 	err := validation.ValidateStruct(userRequest)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(err)
 	}
 
-	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
-	if err := domain.CreateUser(); err != nil {
+	domain := model.NewUserDomain(
+		userRequest.Email,
+		userRequest.Password,
+		userRequest.Name,
+		userRequest.Age)
+	service := service.NewUserDomainService()
+	if err := service.CreateUser(domain); err != nil {
 		return ctx.Status(err.Code).JSON(err)
 	}
 
 	logger.Info("Created user sucessfully via CONTROLLER",
-		zap.String("userName", userRequest.Name),
-		//zap.String("userName", userRequest.Password),
+		zap.String("userName", domain.GetName()),
+		zap.String("encryptPass", domain.GetPassword()),
 		zap.String("journey", "createUser"),
 	)
 
