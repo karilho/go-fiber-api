@@ -5,7 +5,7 @@ import (
 	"github.com/karilho/go-fiber-api/src/controller/userController"
 )
 
-func InitRoutes(app *fiber.App) {
+func InitRoutes(app *fiber.App, userController userController.UserControllerInterface) {
 
 	//validator := validation.NewValidateUser()
 

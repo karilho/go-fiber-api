@@ -28,6 +28,6 @@ WITHTIMEOUT -> é um dos metodos de CONTEXT. -> você passa o tempo MÁXIMO, DUR
     -> retorna -> context.Context, cancel func()
 
 
-https://www.youtube.com/watch?v=SujUMmy9BtQ
+-> aula 13 - https://www.youtube.com/watch?v=wbtdg9cR3pY&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr&index=14
 
 https://www.youtube.com/watch?v=ywLyAvA9e_8&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr&index=6

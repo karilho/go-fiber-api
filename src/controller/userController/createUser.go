@@ -3,15 +3,15 @@ package userController
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/logger"
-	"github.com/karilho/go-fiber-api/src/configuration/model"
-	service "github.com/karilho/go-fiber-api/src/configuration/model/service"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
 	"github.com/karilho/go-fiber-api/src/configuration/validation"
 	"github.com/karilho/go-fiber-api/src/controller/dtos"
+	"github.com/karilho/go-fiber-api/src/model"
+	"github.com/karilho/go-fiber-api/src/view"
 	"go.uber.org/zap"
 )
 
-func CreateUser(ctx *fiber.Ctx) error {
+func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 	logger.Info("Starting creation of user VIA CONTROLLER",
 		zap.String("journey", "createUser"),
 	)
@@ -41,8 +41,8 @@ func CreateUser(ctx *fiber.Ctx) error {
 		userRequest.Password,
 		userRequest.Name,
 		userRequest.Age)
-	service := service.NewUserDomainService()
-	if err := service.CreateUser(domain); err != nil {
+
+	if err := uc.service.CreateUser(domain); err != nil {
 		return ctx.Status(err.Code).JSON(err)
 	}
 
@@ -52,5 +52,5 @@ func CreateUser(ctx *fiber.Ctx) error {
 		zap.String("journey", "createUser"),
 	)
 
-	return nil
+	return ctx.Status(fiber.StatusCreated).JSON(view.ConvertDomainToResponse(domain))
 }

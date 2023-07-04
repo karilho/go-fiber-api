@@ -2,6 +2,6 @@ package userController
 
 import "github.com/gofiber/fiber/v2"
 
-func DeleteUser(c *fiber.Ctx) error {
+func (uc *userControllerInterface) DeleteUser(c *fiber.Ctx) error {
 	return nil
 }
