@@ -19,7 +19,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	//init db
-	mongodb.InitConnectionDB()
+	mongodb.NewMongoConnection()
 
 	// init dependencies
 	service := service.NewUserDomainService()

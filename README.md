@@ -28,6 +28,14 @@ WITHTIMEOUT -> é um dos metodos de CONTEXT. -> você passa o tempo MÁXIMO, DUR
     -> retorna -> context.Context, cancel func()
 
 
+
+CONSTRUTOR PARA ACESSO OU VARIÁVEL GLOBAL
+-> construtor - newmongodbconnection (blablabla) return mongo client
+utilizar o próximo
+
+var (connection mongo.client)
+
+
 -> aula 13 - https://www.youtube.com/watch?v=wbtdg9cR3pY&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr&index=14
 
 https://www.youtube.com/watch?v=ywLyAvA9e_8&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr&index=6
