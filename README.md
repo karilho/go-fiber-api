@@ -35,6 +35,13 @@ utilizar o próximo
 
 var (connection mongo.client)
 
+MARHSAL
+-> TEM COMO FUNÇÃO -> transformar um objeto em um array de bytes, UMA STRING EM BYTES E QUALQUER OUTRA COISA
+no caso, utilizamos comummente para trasnformar um struct em bytes.
+
+UNMARSHAL
+-> TEM COMO FUNÇÃO -> transformar um array de bytes em um objeto, UM ARRAY EM OBJETO OU ETC
+
 
 -> aula 13 - https://www.youtube.com/watch?v=wbtdg9cR3pY&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr&index=14
 
