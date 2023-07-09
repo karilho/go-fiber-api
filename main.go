@@ -8,6 +8,7 @@ import (
 	"github.com/karilho/go-fiber-api/src/controller/routes"
 	"github.com/karilho/go-fiber-api/src/controller/userController"
 	"github.com/karilho/go-fiber-api/src/database/mongodb"
+	"github.com/karilho/go-fiber-api/src/model/repository"
 	"github.com/karilho/go-fiber-api/src/model/service"
 	"log"
 )
@@ -20,10 +21,14 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	//init db
-	mongodb.NewMongoConnection(ctx)
+	db, err := mongodb.NewMongoConnection(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// init dependencies
-	service := service.NewUserDomainService()
+	repository := repository.NewUserRepository(db)
+	service := service.NewUserDomainService(repository)
 	userController := userController.NewUserControllerInterface(service)
 
 	app := fiber.New()

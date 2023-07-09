@@ -42,7 +42,8 @@ func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 		userRequest.Name,
 		userRequest.Age)
 
-	if err := uc.service.CreateUser(domain); err != nil {
+	domainResult, err := uc.service.CreateUser(domain)
+	if err != nil {
 		return ctx.Status(err.Code).JSON(err)
 	}
 
@@ -52,5 +53,5 @@ func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 		zap.String("journey", "createUser"),
 	)
 
-	return ctx.Status(fiber.StatusCreated).JSON(view.ConvertDomainToResponse(domain))
+	return ctx.Status(fiber.StatusCreated).JSON(view.ConvertDomainToResponse(domainResult))
 }

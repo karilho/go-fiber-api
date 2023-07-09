@@ -7,14 +7,23 @@ import (
 	"go.uber.org/zap"
 )
 
-func (*userDomainService) CreateUser(ud model.UserDomainInterface) *rest_errors.RestErr {
+func (uds *userDomainService) CreateUser(udi model.UserDomainInterface) (model.UserDomainInterface, *rest_errors.RestErr) {
 	logger.Info("Starting creation of user VIA MODEL",
 		zap.String("journey", "CreateUser"))
-	ud.EncryptPass()
+	udi.EncryptPass()
+
+	userDomainRepository, err := uds.repository.CreateUser(udi)
+	if err != nil {
+		logger.Error("Error on insert user",
+			err,
+			zap.String("error", err.Error()))
+		return nil, rest_errors.NewInternalServerError(err.Error())
+	}
+
 	logger.Info("User ALIAS",
-		zap.String("userName", ud.GetName()),
-		zap.String("EncryptPass", ud.GetPassword()))
-	return nil
+		zap.String("userName", udi.GetName()),
+		zap.String("EncryptPass", udi.GetPassword()))
+	return userDomainRepository, nil
 }
 
 func (*userDomainService) UpdateUser(userID string, userDomain model.UserDomainInterface) *rest_errors.RestErr {
