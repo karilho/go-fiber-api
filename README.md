@@ -16,7 +16,8 @@ In this project we have the following technologies:
 ## Installation
 
 ```bash
-Run - docker compose up -d
+Run -docker run --name -d -p 27017:27017 mongo
+Run - docker compose up -d [not working right now]
 ```
 Run - go run main.go
 

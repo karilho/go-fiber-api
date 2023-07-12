@@ -14,7 +14,13 @@ var (
 )
 
 func NewMongoConnection(ctx context.Context) (*mongo.Database, error) {
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv(MONGODB_URL)))
+	logger.Info("Starting MongoDB connection")
+	credential := options.Credential{
+		Username: os.Getenv("MONGO_DB_USER"),
+		Password: os.Getenv("MONGO_DB_PASSWORD"),
+	}
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv(MONGODB_URL)).SetAuth(credential))
 	if err != nil {
 		return nil, err
 	}
