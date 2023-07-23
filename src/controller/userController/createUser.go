@@ -16,10 +16,7 @@ func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 		zap.String("journey", "createUser"),
 	)
 	var userRequest dtos.UserRequest
-	//var userResponse dtos.UserResponse
-	//Se ele executar, e DER UM ERRO DIFERENTE DE RETORNO NULO
-	// ELE VAI LANÇAR ESSA EXCEÇÃO NAS LINHAS 17/18
-	// SE DER TUDO BEM, VAI FAZER O BODYPARSER
+
 	if err := ctx.BodyParser(&userRequest); err != nil {
 		logger.Error("Error parsing body: ", err,
 			zap.String("journey", "createUser"))
@@ -36,11 +33,7 @@ func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(err)
 	}
 
-	domain := model.NewUserDomain(
-		userRequest.Email,
-		userRequest.Password,
-		userRequest.Name,
-		userRequest.Age)
+	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
 
 	domainResult, err := uc.service.CreateUser(domain)
 	if err != nil {

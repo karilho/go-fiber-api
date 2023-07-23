@@ -8,7 +8,7 @@ import (
 )
 
 func (uds *userDomainService) CreateUser(udi model.UserDomainInterface) (model.UserDomainInterface, *rest_errors.RestErr) {
-	logger.Info("Starting creation of user VIA MODEL",
+	logger.Info("Starting creation of user VIA MODEL -> Service layer",
 		zap.String("journey", "CreateUser"))
 	udi.EncryptPass()
 

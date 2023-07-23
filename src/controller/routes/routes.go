@@ -7,8 +7,6 @@ import (
 
 func InitRoutes(app *fiber.App, userController userController.UserControllerInterface) {
 
-	//validator := validation.NewValidateUser()
-
 	//Estudos -> Este ponto é para gerenciar as rotas.
 	//Eles recebem o path e um parametro (...), que no caso você pode integrar com um context
 	// Ou com middlewares (JWT), vários, quantos quiser.

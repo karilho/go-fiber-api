@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 )
 
-// Construtor para ser utilizado que vai instanciar este cara
 func NewUserDomain(email, password, name string, age int) *userDomainStruct {
 	return &userDomainStruct{
 		email:    email,
@@ -22,7 +21,6 @@ func (ud *userDomainStruct) EncryptPass() {
 	ud.password = hex.EncodeToString(hash.Sum(nil))
 }
 
-// Getters.
 func (ud *userDomainStruct) GetEmail() string    { return ud.email }
 func (ud *userDomainStruct) GetPassword() string { return ud.password }
 func (ud *userDomainStruct) GetName() string     { return ud.name }
