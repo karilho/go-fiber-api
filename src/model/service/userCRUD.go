@@ -34,6 +34,27 @@ func (*userDomainService) DeleteUser(string) *rest_errors.RestErr {
 	return nil
 }
 
-func (*userDomainService) FindUser(string) (*model.UserDomainInterface, *rest_errors.RestErr) {
-	return nil, nil
+func (urs *userDomainService) FindUserByEmail(email string) (model.UserDomainInterface, *rest_errors.RestErr) {
+	logger.Info("Starting GETTER EMAIL of user VIA SERVICE -> Service layer",
+		zap.String("journey", "FindUserByEmail"))
+
+	// Pq se eu retornar direto não dá?
+	userDomain, err := urs.repository.FindUserByEmail(email)
+	if err != nil {
+		return nil, err
+
+	}
+	return userDomain, nil
+}
+
+func (urs *userDomainService) FindUserById(id string) (model.UserDomainInterface, *rest_errors.RestErr) {
+	logger.Info("Starting GETTER EMAIL of user VIA SERVICE -> Service layer",
+		zap.String("journey", "FindUserByEmail"))
+
+	// Pq se eu retornar direto não dá?
+	userDomain, err := urs.repository.FindUserById(id)
+	if err != nil {
+		return nil, err
+	}
+	return userDomain, nil
 }
