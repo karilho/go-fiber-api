@@ -7,6 +7,7 @@ import (
 	"github.com/karilho/go-fiber-api/src/view"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.uber.org/zap"
+	"net/mail"
 )
 
 func (uc *userControllerInterface) FindUserById(c *fiber.Ctx) error {
@@ -35,14 +36,11 @@ func (uc *userControllerInterface) FindUserByEmail(c *fiber.Ctx) error {
 
 	userEmail := c.Params("userEmail")
 
-	/*
-		if _, err := uuid.Parse(userEmail); err != nil {
-			errorMsg := rest_errors.NewBadRequestError(
-				"Invalid email")
-			return c.Status(errorMsg.Code).JSON(errorMsg)
-		}
-
-	*/
+	if _, err := mail.ParseAddress(userEmail); err != nil {
+		errorMsg := rest_errors.NewBadRequestError(
+			"Invalid email")
+		return c.Status(errorMsg.Code).JSON(errorMsg)
+	}
 
 	userDomain, err := uc.service.FindUserByEmail(userEmail)
 	if err != nil {

@@ -13,3 +13,8 @@ type UserResponse struct {
 	Name  string `json:"name"`
 	Age   int    `json:"age"`
 }
+
+type UserUpdateRequest struct {
+	Name string `json:"name" validate:"omitempty,min=3,max=50"`
+	Age  int    `json:"age" validate:"omitempty"`
+}

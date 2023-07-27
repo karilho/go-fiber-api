@@ -26,8 +26,21 @@ func (uds *userDomainService) CreateUser(udi model.UserDomainInterface) (model.U
 	return userDomainRepository, nil
 }
 
-func (*userDomainService) UpdateUser(userID string, userDomain model.UserDomainInterface) *rest_errors.RestErr {
+func (ud *userDomainService) UpdateUser(userID string, userDomain model.UserDomainInterface) *rest_errors.RestErr {
+	logger.Info("Starting update of user VIA MODEL -> Service layer",
+		zap.String("journey", "updateUser"))
+
+	err := ud.repository.UpdateUser(userID, userDomain)
+	if err != nil {
+		logger.Error("Error on update user when calling repository", err)
+		return err
+	}
+
+	logger.Info("User ALIAS",
+		zap.String("Id", userID),
+		zap.String("Name", userDomain.GetName()))
 	return nil
+
 }
 
 func (*userDomainService) DeleteUser(string) *rest_errors.RestErr {
@@ -48,8 +61,8 @@ func (urs *userDomainService) FindUserByEmail(email string) (model.UserDomainInt
 }
 
 func (urs *userDomainService) FindUserById(id string) (model.UserDomainInterface, *rest_errors.RestErr) {
-	logger.Info("Starting GETTER EMAIL of user VIA SERVICE -> Service layer",
-		zap.String("journey", "FindUserByEmail"))
+	logger.Info("Starting GETTER ID of user VIA SERVICE -> Service layer",
+		zap.String("journey", "FindUserById"))
 
 	// Pq se eu retornar direto não dá?
 	userDomain, err := urs.repository.FindUserById(id)

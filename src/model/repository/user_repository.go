@@ -89,3 +89,31 @@ func (urs *userRepositoryStruct) FindUserById(id string) (model.UserDomainInterf
 		zap.String("journey", userEntity.ID.Hex()))
 	return converter.ConvertEntityToDomain(*userEntity), nil
 }
+
+func (urs *userRepositoryStruct) UpdateUser(userId string, userDomain model.UserDomainInterface) *rest_errors.RestErr {
+
+	logger.Info("Starting update of user VIA REPOSITORY")
+
+	COLLECTION_NAME := os.Getenv(MONGO_COLLECTION)
+	collection := urs.databaseConnection.Collection(COLLECTION_NAME)
+
+	value := converter.ConvertDomainToEntity(userDomain)
+	userIdHex, _ := primitive.ObjectIDFromHex(userId)
+
+	filter := bson.D{{"_id", userIdHex}}
+	update := bson.D{{Key: "$set", Value: value}}
+
+	_, err := collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		logger.Error("Error trying to update user",
+			err,
+			zap.String("journey", "updateUser"))
+		return rest_errors.NewInternalServerError(err.Error())
+	}
+
+	logger.Info("User updated",
+		zap.String("userId", userId),
+		zap.String("journey", "updateUser"))
+
+	return nil
+}

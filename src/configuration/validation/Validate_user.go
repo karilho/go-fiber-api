@@ -12,20 +12,18 @@ var (
 	validate = validator.New()
 )
 
-func ValidateStruct(user dtos.UserRequest) *rest_errors.RestErr {
-	err := validate.Struct(user)
+func ValidateStruct(userRequest dtos.UserRequest) *rest_errors.RestErr {
+	err := validate.Struct(userRequest)
 	if err != nil {
-		var causes []rest_errors.Causes
-		for _, err := range err.(validator.ValidationErrors) {
-			cause := rest_errors.Causes{
-				Message: err.Error(),
-				Field:   err.Field(),
-			}
-			causes = append(causes, cause)
+		return rest_errors.NewBadRequestError(err.Error())
+	}
+	return nil
+}
 
-		}
-		restErr := rest_errors.NewBadRequestValidationError("Invalid request body", causes)
-		return restErr
+func ValidateUpdate(request dtos.UserUpdateRequest) *rest_errors.RestErr {
+	err := validate.Struct(request)
+	if err != nil {
+		return rest_errors.NewBadRequestError(err.Error())
 	}
 	return nil
 }
