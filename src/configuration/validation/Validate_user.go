@@ -12,8 +12,8 @@ var (
 	validate = validator.New()
 )
 
-func ValidateStruct(userRequest dtos.UserRequest) *rest_errors.RestErr {
-	err := validate.Struct(userRequest)
+func ValidateStruct(request any) *rest_errors.RestErr {
+	err := validate.Struct(request)
 	if err != nil {
 		return rest_errors.NewBadRequestError(err.Error())
 	}

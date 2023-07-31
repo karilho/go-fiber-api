@@ -2,6 +2,7 @@ version: '3'
 
 services:
   mongo:
+    restart: always
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -9,7 +10,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-        - ./data:/data/db
+        - ./data:/data
     networks:
       - mongo-compose-network
 

@@ -13,6 +13,7 @@
 *./data
 /data
 *.data
+data.2
 
 # Test binary, built with `go test -c`
 *.test
