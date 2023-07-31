@@ -14,11 +14,11 @@ func NewUserControllerInterface(service service.UserDomainService) UserControlle
 type UserControllerInterface interface {
 	FindUserById(c *fiber.Ctx) error
 	FindUserByEmail(c *fiber.Ctx) error
-	FindUsers(c *fiber.Ctx) error
 
 	UpdateUser(c *fiber.Ctx) error
 	CreateUser(c *fiber.Ctx) error
 	DeleteUser(c *fiber.Ctx) error
+	LoginUser(c *fiber.Ctx) error
 }
 
 type userControllerInterface struct {

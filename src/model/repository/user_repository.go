@@ -142,3 +142,34 @@ func (urs *userRepositoryStruct) DeleteUser(userId string) *rest_errors.RestErr 
 
 	return nil
 }
+
+func (urs *userRepositoryStruct) FindUserByEmailAndPass(email string, password string) (model.UserDomainInterface, *rest_errors.RestErr) {
+	logger.Info("Starting GETTER EMAIL AND PASS of user VIA REPOSITORY",
+		zap.String("journey", "userLogin"))
+
+	COLLECTION_NAME := os.Getenv(MONGO_COLLECTION)
+	collection := urs.databaseConnection.Collection(COLLECTION_NAME)
+	userEntity := &entities.UserEntityStruct{}
+
+	filter := bson.D{{"email", email},
+		{"password", password}}
+
+	err := collection.FindOne(context.Background(), filter).Decode(userEntity)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			errorMsg := fmt.Sprintf(("User with email this and pass not found"))
+			logger.Error(errorMsg, err,
+				zap.String("journey", "userLogin"))
+			return nil, rest_errors.NewNotFoundError(errorMsg)
+		}
+
+		errorMsg := "Error trying to find  user by email"
+		return nil, rest_errors.NewInternalServerError(errorMsg)
+	}
+	logger.Info("User found",
+		zap.String("journey", "userLogin"),
+		zap.String("email", email),
+		zap.String("journey", userEntity.ID.Hex()))
+	return converter.ConvertEntityToDomain(*userEntity), nil
+}
