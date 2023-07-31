@@ -43,8 +43,21 @@ func (ud *userDomainService) UpdateUser(userID string, userDomain model.UserDoma
 
 }
 
-func (*userDomainService) DeleteUser(string) *rest_errors.RestErr {
-	return nil
+func (urs *userDomainService) DeleteUser(userId string) *rest_errors.RestErr {
+	logger.Info("Starting delete of user VIA MODEL -> Service layer",
+		zap.String("journey", "deleteUser"))
+
+	err := urs.repository.DeleteUser(userId)
+	if err != nil {
+		logger.Error("Error on delete user when calling repository",
+			err,
+			zap.String("error", err.Error()))
+	}
+
+	logger.Info("User deleted sucessfully via MODEL -> Service layer",
+		zap.String("userID", userId),
+		zap.String("journey", "deleteUser"))
+	return err
 }
 
 func (urs *userDomainService) FindUserByEmail(email string) (model.UserDomainInterface, *rest_errors.RestErr) {

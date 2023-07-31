@@ -117,3 +117,28 @@ func (urs *userRepositoryStruct) UpdateUser(userId string, userDomain model.User
 
 	return nil
 }
+
+func (urs *userRepositoryStruct) DeleteUser(userId string) *rest_errors.RestErr {
+	logger.Info("Starting delete of user VIA REPOSITORY",
+		zap.String("journey", "deleteUser"))
+
+	COLLECTION_NAME := os.Getenv(MONGO_COLLECTION)
+	collection := urs.databaseConnection.Collection(COLLECTION_NAME)
+
+	userIdHex, _ := primitive.ObjectIDFromHex(userId)
+	filter := bson.D{{"_id", userIdHex}}
+
+	_, err := collection.DeleteOne(context.Background(), filter)
+	if err != nil {
+		logger.Error("Error trying to delete user",
+			err,
+			zap.String("journey", "deleteUser"))
+		return rest_errors.NewInternalServerError(err.Error())
+	}
+
+	logger.Info("User deleted sucessfully via Repository",
+		zap.String("userId", userId),
+		zap.String("journey", "deleteUser"))
+
+	return nil
+}

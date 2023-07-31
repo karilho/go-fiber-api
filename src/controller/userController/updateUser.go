@@ -17,8 +17,6 @@ func (uc *userControllerInterface) UpdateUser(ctx *fiber.Ctx) error {
 		zap.String("journey", "updateUser"),
 	)
 
-	//TODO - CORRIGIR VALIDATION QUE NÃO TÁ INDO NEM COM REZA BRABA
-
 	var userUpdateRequest dtos.UserUpdateRequest
 	var validation = validator.New()
 	if err := ctx.BodyParser(&userUpdateRequest); err != nil {
