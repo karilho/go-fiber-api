@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (uds *userDomainService) LoginUserService(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_errors.RestErr) {
+func (uds *userDomainService) LoginUserService(userDomain model.UserDomainInterface) (model.UserDomainInterface, string, *rest_errors.RestErr) {
 	logger.Info("Starting LOGIN of user VIA SERVICE",
 		zap.String("journey", "loginUser"))
 
@@ -15,12 +15,17 @@ func (uds *userDomainService) LoginUserService(userDomain model.UserDomainInterf
 
 	user, err := uds.repository.FindUserByEmailAndPass(userDomain.GetEmail(), userDomain.GetPassword())
 	if err != nil {
-		return nil, err
+		return nil, "", err
+	}
+
+	tokenJWT, err := user.GenerateToken()
+	if err != nil {
+		return nil, "", err
 	}
 
 	logger.Info("User found via SERVICE",
 		zap.String("userID", user.GetId()),
 		zap.String("journey", "loginUser"))
 
-	return user, nil
+	return user, tokenJWT, nil
 }

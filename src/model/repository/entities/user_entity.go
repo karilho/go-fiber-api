@@ -10,5 +10,5 @@ type UserEntityStruct struct {
 	Email    string             `bson:"email,omitempty"`
 	Password string             `bson:"password,omitempty"`
 	Name     string             `bson:"name,omitempty"`
-	Age      int                `bson:"age,omitempty"`
+	Age      int8               `bson:"age,omitempty"`
 }

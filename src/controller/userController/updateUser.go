@@ -44,7 +44,7 @@ func (uc *userControllerInterface) UpdateUser(ctx *fiber.Ctx) error {
 	logger.Info("Updated user sucessfully via CONTROLLER",
 		zap.String("userID", domain.GetId()),
 		zap.String("Name", domain.GetName()),
-		zap.Int("Age", domain.GetAge()),
+		zap.Int8("Age", domain.GetAge()),
 		zap.String("journey", "updateUser"),
 	)
 

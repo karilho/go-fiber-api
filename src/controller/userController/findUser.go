@@ -14,7 +14,17 @@ func (uc *userControllerInterface) FindUserById(c *fiber.Ctx) error {
 	logger.Info("Starting GETTER EMAIL of user VIA CONTROLLER",
 		zap.String("journey", "FindUserById"))
 
+	logger.Info("User Logged")
+
 	userId := c.Params("userId")
+
+	/*
+		_, err := model.VerifyToken(string(c.Request().Header.Peek("Authorization")))
+		if err != nil {
+			c.JSON(err)
+			return nil
+		}
+	*/
 
 	if _, err := primitive.ObjectIDFromHex(userId); err != nil {
 		errorMsg := rest_errors.NewBadRequestError(

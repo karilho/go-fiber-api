@@ -1,6 +1,7 @@
 package userController
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/logger"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
@@ -35,7 +36,7 @@ func (uc *userControllerInterface) LoginUser(ctx *fiber.Ctx) error {
 
 	domain := model.NewUserLoginDomain(userLoginRequest.Email, userLoginRequest.Password)
 
-	domainResult, err := uc.service.LoginUserService(domain)
+	domainResult, token, err := uc.service.LoginUserService(domain)
 	if err != nil {
 		return ctx.Status(err.Code).JSON(err)
 	}
@@ -45,5 +46,8 @@ func (uc *userControllerInterface) LoginUser(ctx *fiber.Ctx) error {
 		zap.String("journey", "userLogin"),
 	)
 
+	//When the user makes sucessfully login, we will return the token in the header
+	ctx.Set("Authorization", token)
+	fmt.Print("Token: ", token)
 	return ctx.Status(fiber.StatusCreated).JSON(view.ConvertDomainToResponse(domainResult))
 }
