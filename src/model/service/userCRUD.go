@@ -10,6 +10,12 @@ import (
 func (uds *userDomainService) CreateUser(udi model.UserDomainInterface) (model.UserDomainInterface, *rest_errors.RestErr) {
 	logger.Info("Starting creation of user VIA MODEL -> Service layer",
 		zap.String("journey", "CreateUser"))
+
+	user, _ := uds.repository.FindUserByEmail(udi.GetEmail())
+	if user != nil {
+		return nil, rest_errors.NewBadRequestError("Email already exists in DB")
+	}
+
 	udi.EncryptPass()
 
 	userDomainRepository, err := uds.repository.CreateUser(udi)
