@@ -16,7 +16,6 @@ func NewUserRepository(database *mongo.Database) UserRepositoryInterface {
 	}
 }
 
-// Essa struct precisará da dependencia de conexão com DB
 type userRepositoryStruct struct {
 	databaseConnection *mongo.Database
 }

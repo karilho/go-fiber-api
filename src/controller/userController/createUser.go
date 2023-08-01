@@ -20,14 +20,11 @@ func (uc *userControllerInterface) CreateUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&userRequest); err != nil {
 		logger.Error("Error parsing body: ", err,
 			zap.String("journey", "createUser"))
-		//Erro que vai retornar pro usuário no post.
 		errRest := rest_errors.NewBadRequestError("Incorrect field error " + err.Error())
-		//Este retorno serve para que ele NÃO CONTINUE E CÓDIGO CASO ERRO
 		return ctx.Status(fiber.StatusBadRequest).JSON(errRest)
 	}
 
-	//Aqui eu vou validar o usuário
-	//Todo VALIDAR DENTRO DO BODYPARSER.
+	//TODO - Validate request inside bodyparser, not alone.
 	err := validation.ValidateStruct(userRequest)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(err)

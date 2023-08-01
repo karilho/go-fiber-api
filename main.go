@@ -20,10 +20,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	//init db
-	db, err := mongodb.NewMongoConnection(ctx)
-	if err != nil {
-		log.Fatal(err)
+
+	db, errdb := mongodb.NewMongoConnection(ctx)
+	if errdb != nil {
+		log.Fatal(errdb)
 	}
 
 	// init dependencies

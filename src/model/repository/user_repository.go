@@ -15,6 +15,7 @@ import (
 	"os"
 )
 
+// TODO -> Make some global variables to reduce boiler plate
 func (urs *userRepositoryStruct) CreateUser(userDomain model.UserDomainInterface) (
 	model.UserDomainInterface, *rest_errors.RestErr) {
 

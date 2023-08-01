@@ -22,9 +22,7 @@ func (uc *userControllerInterface) UpdateUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&userUpdateRequest); err != nil {
 		logger.Error("Error parsing body: ", err,
 			zap.String("journey", "updateUser"))
-		//Erro que vai retornar pro usuário no put.
 		errRest := validation.Struct(userUpdateRequest)
-		//Este retorno serve para que ele NÃO CONTINUE E CÓDIGO CASO ERRO
 		return ctx.Status(fiber.StatusBadRequest).JSON(errRest)
 	}
 

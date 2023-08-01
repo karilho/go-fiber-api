@@ -8,6 +8,7 @@ type UserDomainInterface interface {
 	GetName() string
 	GetAge() int8
 	GetId() string
+
 	EncryptPass()
 	GenerateToken() (string, *rest_errors.RestErr)
 

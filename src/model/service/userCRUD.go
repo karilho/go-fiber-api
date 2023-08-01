@@ -70,7 +70,6 @@ func (urs *userDomainService) FindUserByEmail(email string) (model.UserDomainInt
 	logger.Info("Starting GETTER EMAIL of user VIA SERVICE -> Service layer",
 		zap.String("journey", "FindUserByEmail"))
 
-	// Pq se eu retornar direto não dá?
 	userDomain, err := urs.repository.FindUserByEmail(email)
 	if err != nil {
 		return nil, err
@@ -83,7 +82,6 @@ func (urs *userDomainService) FindUserById(id string) (model.UserDomainInterface
 	logger.Info("Starting GETTER ID of user VIA SERVICE -> Service layer",
 		zap.String("journey", "FindUserById"))
 
-	// Pq se eu retornar direto não dá?
 	userDomain, err := urs.repository.FindUserById(id)
 	if err != nil {
 		return nil, err

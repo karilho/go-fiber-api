@@ -2,7 +2,6 @@ package rest_errors
 
 import "net/http"
 
-// Struct para retornar o "padrão" de erro
 type RestErr struct {
 	Message string   `json:"message"`
 	Err     string   `json:"error"`
@@ -10,19 +9,17 @@ type RestErr struct {
 	Causes  []Causes `json:"causes"`
 }
 
-// Struct para retornar as CAUSAS do erro gerado
 type Causes struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`
 }
 
 // Work to satisfact the interface error from Go
-// Use this for another librarier that implements another types of errors.
+// Use this for another libraries that implements another types of errors.
 func (e *RestErr) Error() string {
 	return e.Message
 }
 
-// Work like a constructors
 func NewRestErr(neessage, err string, code int, causes []Causes) *RestErr {
 	return &RestErr{
 		Message: neessage,

@@ -24,7 +24,7 @@ func NewMongoConnection(ctx context.Context) (*mongo.Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	//ping é pra ve se está conectado ok.
+
 	err = client.Ping(ctx, nil)
 	if err != nil {
 		return nil, err

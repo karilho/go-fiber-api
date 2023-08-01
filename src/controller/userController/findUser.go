@@ -18,14 +18,6 @@ func (uc *userControllerInterface) FindUserById(c *fiber.Ctx) error {
 
 	userId := c.Params("userId")
 
-	/*
-		_, err := model.VerifyToken(string(c.Request().Header.Peek("Authorization")))
-		if err != nil {
-			c.JSON(err)
-			return nil
-		}
-	*/
-
 	if _, err := primitive.ObjectIDFromHex(userId); err != nil {
 		errorMsg := rest_errors.NewBadRequestError(
 			"Invalid ID")
@@ -58,8 +50,4 @@ func (uc *userControllerInterface) FindUserByEmail(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(view.ConvertDomainToResponse(userDomain))
-}
-
-func (uc *userControllerInterface) FindUsers(c *fiber.Ctx) error {
-	return nil
 }

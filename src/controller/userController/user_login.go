@@ -1,7 +1,6 @@
 package userController
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/karilho/go-fiber-api/src/configuration/logger"
 	"github.com/karilho/go-fiber-api/src/configuration/rest_errors"
@@ -21,14 +20,10 @@ func (uc *userControllerInterface) LoginUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&userLoginRequest); err != nil {
 		logger.Error("Error parsing body: ", err,
 			zap.String("journey", "createUser"))
-		//Erro que vai retornar pro usuário no post.
 		errRest := rest_errors.NewBadRequestError("Incorrect field error " + err.Error())
-		//Este retorno serve para que ele NÃO CONTINUE E CÓDIGO CASO ERRO
 		return ctx.Status(fiber.StatusBadRequest).JSON(errRest)
 	}
 
-	//Aqui eu vou validar o usuário
-	//Todo VALIDAR DENTRO DO BODYPARSER.
 	err := validation.ValidateStruct(userLoginRequest)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(err)
@@ -48,6 +43,7 @@ func (uc *userControllerInterface) LoginUser(ctx *fiber.Ctx) error {
 
 	//When the user makes sucessfully login, we will return the token in the header
 	ctx.Set("Authorization", token)
-	fmt.Print("Token: ", token)
+	//Get Token from header to acess
+	logger.Info("Token: ", zap.String("token", token))
 	return ctx.Status(fiber.StatusCreated).JSON(view.ConvertDomainToResponse(domainResult))
 }
