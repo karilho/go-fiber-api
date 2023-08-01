@@ -22,16 +22,13 @@ But have some differences:
 ## Installation
 
 ```bash
-Run - docker compose up -d 
-Run - go run main.go
+$ docker compose up -d ### This command will start the database on port 3000 using a container from docker-compose.yml
+$ go run main.go ### This command will start the application from main.go
 ```
-
-First we will setup dynamodb and then will start the server on port 3000 using a container from docker-compose.yml, and after
-run the main.go file.
 
 ## ENDPOINTS to call the API:
 
-### CREATE USER @POST -> localhost:3000/createUser
+### Create user @POST -> localhost:3000/createUser
 
 ```bash
 
@@ -45,7 +42,7 @@ curl --location 'localhost:3000/createUser' \
 }'
 ```
 
-### LOGIN WITH CREATED USER @POST -> localhost:3000/login
+### Login with created user @POST -> localhost:3000/login
 
 ```bash
 curl --location 'localhost:3000/login' \
@@ -55,41 +52,41 @@ curl --location 'localhost:3000/login' \
     "password": "joao"
 }'
 
-When u login, u will receive a token, copy it and paste on the next endpoints, to test the authentication.
 ```
+When you do login, you will receive a token, copy it and paste on the next endpoints, to test the authentication.
 
-### FIND BY USERID @GET -> localhost:3000/getUserById/:userId
+### Find by userId @GET -> localhost:3000/getUserById/:userId
 
 ```bash
 curl --location 'localhost:3000/getUserById/:userId' \
---header 'Authorization: :TOKENVALUE' \
+--header 'Authorization: :$token' \
 --data ''
 ```
 
-### FIND BY EMAIL @GET -> localhost:3000/getUserByEmail/:userEmail
+### Find by email @GET -> localhost:3000/getUserByEmail/:userEmail
 
 ```bash
 curl --location 'localhost:3000/getUserByEmail/:userEmail' \
---header 'Authorization: :TOKENVALUE' \
+--header 'Authorization: :$token \
 --data ''
 ```
 
-### UPDATE 1 or MORE FIELDS @PUT -> localhost:3000/updateUser/:userId
+### Update 1 or more fields @PUT -> localhost:3000/updateUser/:userId
 
 ```bash
 curl --location --request PUT 'localhost:3000/updateUser/:userId' \
---header 'Content-Type: application/json', 'Authorization: :TOKENVALUE' \
+--header 'Content-Type: application/json', 'Authorization: :$token' \
 --data '{
     "age": 50
 }
 '
 ```
 
-### DELETE @DELETE -> localhost:3000/:userId
+### Delete some entry @DELETE -> localhost:3000/:userId
 
 ```bash
 curl --location --request DELETE 'localhost:3000/userId'
---header 'Authorization: :TOKENVALUE' \
+--header 'Authorization: :$token' \
 --data ''
 ```
 
