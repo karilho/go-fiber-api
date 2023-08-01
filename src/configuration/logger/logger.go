@@ -51,9 +51,6 @@ func getOutPutLogs() string {
 
 func getLevelLogs() zapcore.Level {
 	switch strings.ToLower(strings.TrimSpace(os.Getenv(LOG_LEVEL))) {
-	case "info":
-		return zap.InfoLevel
-	// perguntar pro vini porque?
 	case "error":
 		return zap.ErrorLevel
 	case "debug":
