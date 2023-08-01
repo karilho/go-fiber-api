@@ -1,17 +1,23 @@
 Rest API build using FIBER FRAMEWORK. 
 
-This project was made using fiber framework from Golang, and it's a simple CRUD with DynamoDB, but
+This project was made using fiber framework from Golang, and it's a simple CRUD with MongoDB, but
 you can use any database you want, just need to change the connection and the methods.
 
 In this project we have the following technologies:
 - Fiber Framework
-- DynamoDB
+- MongoDB
 - Docker
 - JWT Authentication
 - Encryption to hash
 - Unit tests 
 - MVC - Model View Controller - Pattern
-- Swagger - Not implemented yet
+
+This project was guided by a tutorial from @Hunconding: https://www.youtube.com/watch?v=vxDqv6BKZCw&list=PLm-xZWCprwYQ3gyCxJ8TR1L2ZnUOPvOpr
+
+But have some differences:
+- Use Fiber Instead GinGonic
+- Use Docker
+- Different organization from some fields and classes and tests.
 
 ## Installation
 
@@ -89,6 +95,7 @@ curl --location --request DELETE 'localhost:3000/userId'
 
 ## Next Goals
 
+- Change from MVC to a Hexagonal Pattern
 - Implement a "base" user and password to login, and then, create a user and use it.
 - Implement Swagger.
 - Implement some Cloud Service, like a S3 using Localstack.
